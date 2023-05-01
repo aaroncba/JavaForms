@@ -6,7 +6,8 @@ import java.util.HashMap;
 
 public class SaveAndStoreAns {
     Scanner userInput;
-    File FormInformation;
+    File FormInformation = new File("Cuestionarios.csv");;
+    String FormName;
     private HashMap<String, Boolean> userQuestion;
     public static void main(String[] args) throws IOException {
         SaveAndStoreAns n = new SaveAndStoreAns();
@@ -20,6 +21,8 @@ public class SaveAndStoreAns {
         this.userQuestion = new HashMap<String, Boolean>();
         String question;
         boolean answer;
+        System.out.println("Ingrese el nombre del cuestionario: ");
+        FormName = this.userInput.nextLine();
         while(nextQuestion){
             question = "";
             answer = false;
@@ -50,7 +53,6 @@ public class SaveAndStoreAns {
         //then it will take the hashmap were the information was stored
         //it will read the last line of the CSV file and add 1 to that value
         //that will be the formID
-        this.FormInformation = new File("Cuestionarios.csv");
 
         String output = "\"" + this.userQuestion.toString() + "\"";
         int FormID  = 0;
@@ -69,15 +71,23 @@ public class SaveAndStoreAns {
         * Obtiene el ID obteniendo la ultima linea que fue escrita
         * Le suma uno al ultimo valor, luego de transformar la string a int para que se pueda operar.
         * */
-        String[] getID = values.get(values.size()-1).split(",");
-        FormID = Integer.parseInt(getID[0]) + 1;
+        if(!values.isEmpty()){
+            String[] getID = values.get(values.size()-1).split(",");
+            FormID = Integer.parseInt(getID[0]) + 1;
+
+        }
 
         FileWriter writeQuestions = new FileWriter(this.FormInformation);
         for(String toAdd : values){
+            if(toAdd == ""){
+                System.out.println("La linea esta vacia");
+                continue;
+            }
             writeQuestions.write("\n" + toAdd);
         }
-        writeQuestions.write("\n" + FormID + "," + output);
+        writeQuestions.write("\n" + FormID + "," + this.FormName + "," + output);
         writeQuestions.close();
+        getIDandName();
     }
 
     //returnLastID()
@@ -104,5 +114,52 @@ public class SaveAndStoreAns {
         }
 
         return cuestionarios;
+    }
+
+    public ArrayList<String> getIDandName(){
+        ArrayList<String> valuestoReturn = new ArrayList<String>();
+        ArrayList<String> plainValues = new ArrayList<>();
+        plainValues = returnLastID();
+
+        for(String toEdit : plainValues){
+            String[] sepValues = toEdit.split(",");
+            if(sepValues.length > 2){
+                valuestoReturn.add("#" + sepValues[0] + " - " + sepValues[1]);
+            }
+        }
+
+        System.out.println("Cuestionario que se va a retornar: " + valuestoReturn.toString());
+
+        return valuestoReturn;
+    }
+
+    public String getInformationLine(int FormID){
+        ArrayList<String> plainValues = new ArrayList<>();
+        plainValues = returnLastID();
+        String toReturn = "";
+        for(String v : plainValues){
+            String[] sepValues = v.split(",");
+            if(sepValues.length > 1){
+                if(Integer.parseInt(sepValues[0]) == FormID){
+                    toReturn = v;
+                }
+            }
+        }
+        String[] sepQandA = toReturn.split(",");
+        toReturn = "";
+        //toReturn = sepQandA[2] +  + sepQandA[sepQandA.length-1];
+        for(int i = 2; i < sepQandA.length; i++){
+            if(i == 2){
+             toReturn += sepQandA[i];
+            }else {
+                toReturn += " | " + sepQandA[i];
+            }
+        }
+
+        toReturn = toReturn.replace("\"", "");
+        toReturn = toReturn.replace("{", "");
+        toReturn = toReturn.replace("}", "");
+        System.out.println(" -------toReturn " + toReturn);
+        return toReturn;
     }
 }

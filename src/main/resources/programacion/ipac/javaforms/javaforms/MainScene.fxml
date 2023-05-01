@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="programacion.ipac.javaforms.javaforms.HelloController">
+   <children>
+      <Text fx:id="tryC" layoutX="85.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="JAVA FORMS" wrappingWidth="430.73828125">
+         <font>
+            <Font size="72.0" />
+         </font>
+      </Text>
+      <Text layoutX="243.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="By AaronCB" wrappingWidth="145.13671875">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Button layoutX="412.0" layoutY="151.0" mnemonicParsing="false" text="Crear" />
+      <Text layoutX="232.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear un cuestionario: " wrappingWidth="167.13671875">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="107.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Responder Cuestionario: Escoger uno de los cuestionarios ">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <ComboBox fx:id="values" layoutX="225.0" layoutY="257.0" prefWidth="150.0" promptText="Elegir cuestionario" />
+      <Button fx:id="AnsFormScene" layoutX="254.0" layoutY="301.0" mnemonicParsing="false" onAction="#goAnswerFormScene" text="Responder">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="resetCB" layoutX="387.0" layoutY="257.0" mnemonicParsing="false" onAction="#resetCBClick" text="Actualizar Lista" />
+      <TextField fx:id="cantPreguntas" layoutX="301.0" layoutY="188.0" promptText="Cant Preguntas" />
+   </children>
+</Pane>
