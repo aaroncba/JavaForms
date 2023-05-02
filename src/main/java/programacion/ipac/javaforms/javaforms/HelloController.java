@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -51,6 +52,12 @@ public class HelloController {
     private Stage stage;
     private Scene scene;
     boolean CuestionarioRespondido = false;
+
+
+    TextField[] inputPreguntas;
+    CheckBox[] inputRespuestas;
+    Text[] noQuestion;
+    boolean alright = false;
 
 
 
@@ -118,7 +125,7 @@ public class HelloController {
         id = new Text("ID de cuestionario: " + FormId);
         preguntasTxt = new Text("PREGUNTAS");
         RespuestaTxt = new Text("RESPUESTAS");
-        Descripcion = new Text("Lea detenidamente cada una de las preguntas, una vez sean leidas y este listo para responder, debe seguir estas reglas, si la respuesta es verdadera darle click a la caja, si cree que es falsa puede dejarla vacia");
+        Descripcion = new Text("Lea detenidamente cada una de las preguntas, una vez sean leidas y este listo para responder, \ndebe seguir estas reglas, si la respuesta es verdadera darle click a la caja, si cree que es falsa puede dejarla vacia");
         root.add(name, 1, 0);
         root.add(id, 0, 1);
         root.add(Descripcion, 0, 2);
@@ -176,7 +183,7 @@ public class HelloController {
         ScrollPane as = new ScrollPane(root);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(as, 1800, 500);
+        scene = new Scene(as, 1100, 500);
         stage.setTitle("Cuestionario " + FormId + " - " + FormName);
         stage.setScene(scene);
         stage.show();
@@ -190,9 +197,7 @@ public class HelloController {
         boolean error = false;
         Text FormName = new Text("Nombre de Cuestionario: ");
         Text preguntas, respuestas, instrucciones;
-        Button continuar;
-        TextField[] inputPreguntas;
-        CheckBox[] inputRespuestas;
+        Button continuar = null;
         TextField FormNameInput;
 
         //Check if there is a valid input in the textfield to continue:
@@ -209,7 +214,6 @@ public class HelloController {
                 break;
             }
         }
-
         if(error){
             errorCreate.setText("Error, asegurese de ingresar algun valor y/o ingresar un valor numerico");
         }else {
@@ -217,27 +221,89 @@ public class HelloController {
             FormNameInput = new TextField();
             inputPreguntas = new TextField[Integer.parseInt(cantPValue)];
             inputRespuestas = new CheckBox[Integer.parseInt(cantPValue)];
+            noQuestion = new Text[Integer.parseInt(cantPValue)];
             preguntas = new Text("PREGUNTAS");
             respuestas = new Text("RESPUESTAS");
             instrucciones = new Text("INSTRUCCIONES: Agregar las preguntas en el espacion en blanco \n Si su respuesta es verdadera darle click al checkbox, de lo contrario dejar vacio.");
-
 
             rootGP.add(FormName, 0, 0);
             rootGP.add(FormNameInput, 1, 0);
             rootGP.add(instrucciones, 0, 1);
             rootGP.add(preguntas, 0, 2);
             rootGP.add(respuestas, 2, 2);
-            Text a = new Text("This is the textField " + cantPreguntas.getText());
-            ScrollPane SProot = new ScrollPane(rootGP);
 
+
+
+            for(int i = 0; i < inputPreguntas.length; i++){
+                inputPreguntas[i] = new TextField();
+                inputPreguntas[i].setPromptText("Ingrese la pregunta #" + (i+1));
+                inputRespuestas[i] = new CheckBox();
+                rootGP.add(inputPreguntas[i], 0, 3+i);
+                rootGP.add(inputRespuestas[i], 2, 3+i);
+                if(!((i+1) < inputPreguntas.length)){
+                    continuar = new Button("Continuar");
+                    rootGP.add(continuar, 1, 4+i);
+                }
+
+                //for later use
+                noQuestion[i] = new Text();
+                rootGP.add(noQuestion[i], 1, 3+i);
+            }
+
+            EventHandler<ActionEvent> FormReadyEvent = new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent e)
+                {
+                    alright = true;
+                    for(int i = 0; i < inputPreguntas.length; i++){
+                        noQuestion[i].setText("Ingrese una pregunta aqui");
+                        if(inputPreguntas[i].getText().isEmpty()){
+                            noQuestion[i].setFill(Color.RED);
+                            alright = false;
+                        }
+                        else{
+                            noQuestion[i].setText("");
+                        }
+                    }
+                    if(alright){
+                        HashMap preguntasYrespuestas = new HashMap();
+                        for(int i = 0; i < inputPreguntas.length; i++){
+                            preguntasYrespuestas.put(inputPreguntas[i].getText(), inputRespuestas[i].isSelected());
+                        }
+                        SaveAndStoreAns n = new SaveAndStoreAns();
+                        try {
+                            n.inputUserQ(preguntasYrespuestas, FormNameInput.getText());
+                            System.out.println("Yo estuve por aqui");
+                            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("MainScene.fxml"));
+
+                            stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+                            try {
+                                scene = new Scene(fxmlLoader.load(), 600, 400);
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                            stage.setScene(scene);
+                            stage.show();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+
+
+                }
+            };
+            continuar.setOnAction(FormReadyEvent);
+
+            ScrollPane SProot = new ScrollPane(rootGP);
 
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(SProot, 700, 500);
             stage.setTitle("adding this");
             stage.setScene(scene);
             stage.show();
+
         }
     }
+
 
 
 

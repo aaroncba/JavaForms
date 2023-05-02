@@ -9,41 +9,14 @@ public class SaveAndStoreAns {
     File FormInformation = new File("Cuestionarios.csv");;
     String FormName;
     private HashMap<String, Boolean> userQuestion;
-    public static void main(String[] args) throws IOException {
-        SaveAndStoreAns n = new SaveAndStoreAns();
-        n.inputUserQ();
-    }
+
     //inputUserQ, will take the input from CreateForm scene.
     //it will store each question in a
-    public void inputUserQ() throws IOException {
+    public void inputUserQ(HashMap AddInformation, String FormNameInput) throws IOException {
         this.userInput = new Scanner(System.in);
         boolean nextQuestion = true;
-        this.userQuestion = new HashMap<String, Boolean>();
-        String question;
-        boolean answer;
-        System.out.println("Ingrese el nombre del cuestionario: ");
-        FormName = this.userInput.nextLine();
-        while(nextQuestion){
-            question = "";
-            answer = false;
-            System.out.println("Ingrese la pregunta que usted desea");
-            question = this.userInput.nextLine();
-            System.out.println("Ingrese la respuesta para su pregunta: ");
-            if(this.userInput.nextLine().isEmpty()){
-                System.out.println("Entro aqui");
-            }
-            else{
-                System.out.println("Si hay algo en la string");
-                answer = true;
-            }
-
-            this.userQuestion.put(question, answer);
-
-            System.out.println("Enter any letter if you want to exit");
-            if(!this.userInput.nextLine().isEmpty()){
-                nextQuestion = false;
-            }
-        }
+        this.userQuestion = AddInformation;
+        this.FormName = FormNameInput;
         System.out.println(this.userQuestion);
         SaveQuestions();
     }
