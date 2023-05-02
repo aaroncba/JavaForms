@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="programacion.ipac.javaforms.javaforms.HelloController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="programacion.ipac.javaforms.javaforms.HelloController">
    <children>
-      <Text fx:id="tryC" layoutX="85.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="JAVA FORMS" wrappingWidth="430.73828125">
+      <Text fx:id="tryC" layoutX="85.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="JAVA FORMS" wrappingWidth="430.73828125">
          <font>
             <Font size="72.0" />
          </font>
       </Text>
-      <Text layoutX="154.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="By AaronCB and luissanchez234" wrappingWidth="290.13671875">
+      <Text layoutX="95.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="By AaronCB, luissanchez234 and MarioGalindo27" wrappingWidth="439.13671875">
          <font>
             <Font size="20.0" />
          </font>
@@ -46,6 +43,12 @@
       <Text fx:id="errorCreate" fill="RED" layoutX="113.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="360.73828125">
          <font>
             <Font size="10.0" />
+         </font>
+      </Text>
+      <Button fx:id="masInformacion" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#showInformation" text="Informacion" textOverrun="CENTER_ELLIPSIS" />
+      <Text layoutX="18.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="INTEGRANTES" wrappingWidth="91.16943359375">
+         <font>
+            <Font name="Cambria Italic" size="13.0" />
          </font>
       </Text>
    </children>

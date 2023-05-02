@@ -17,7 +17,7 @@ public class SaveAndStoreAns {
         boolean nextQuestion = true;
         this.userQuestion = AddInformation;
         this.FormName = FormNameInput;
-        System.out.println(this.userQuestion);
+
         SaveQuestions();
     }
 
@@ -30,14 +30,11 @@ public class SaveAndStoreAns {
         String output = "\"" + this.userQuestion.toString() + "\"";
         int FormID  = 0;
         if(this.FormInformation.createNewFile()){
-            System.out.println("********CREANDO********");
-            //writeQuestions.write("FormID, QuestionAndAnswers");
+
         }
 
 
-        System.out.println("Va a entrar");
         ArrayList<String> values = returnLastID();
-        System.out.println(values.toString());
 
         //esta parte nos dara el ID
         /*
@@ -53,7 +50,6 @@ public class SaveAndStoreAns {
         FileWriter writeQuestions = new FileWriter(this.FormInformation);
         for(String toAdd : values){
             if(toAdd == ""){
-                System.out.println("La linea esta vacia");
                 continue;
             }
             writeQuestions.write("\n" + toAdd);
@@ -75,15 +71,12 @@ public class SaveAndStoreAns {
             String CurrLine = reader.readLine();
             int count = 0;
             while(CurrLine != null){
-                System.out.println("Esta entrando por aqui");
                 cuestionarios.add(CurrLine);
-                System.out.println(CurrLine);
                 CurrLine = reader.readLine();
                 count++;
             }
             //values = lastLline.split(",");
         }catch (IOException e){
-            System.out.println("File is empty");
         }
 
         return cuestionarios;
@@ -101,7 +94,6 @@ public class SaveAndStoreAns {
             }
         }
 
-        System.out.println("Cuestionario que se va a retornar: " + valuestoReturn.toString());
 
         return valuestoReturn;
     }
@@ -132,7 +124,6 @@ public class SaveAndStoreAns {
         toReturn = toReturn.replace("\"", "");
         toReturn = toReturn.replace("{", "");
         toReturn = toReturn.replace("}", "");
-        System.out.println(" -------toReturn " + toReturn);
         return toReturn;
     }
 }

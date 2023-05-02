@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -35,6 +36,8 @@ public class HelloController {
     Button AnsFormScene;
     @FXML
     Button CreateFormBT;
+    @FXML
+    Button masInformacion;
     @FXML
     Text tryC;
     @FXML
@@ -59,6 +62,10 @@ public class HelloController {
     Text[] noQuestion;
     boolean alright = false;
 
+
+    //Team members information and rules to use the program
+    String[] FullName = {"Aaron Isaac Colindres Barralaga", "Luis Adán Sánchez Perez", "Mario Alexis Galindo Hernandez"};
+    long[] AccountNumber = {20221002478L, 20111900511L, 20191005831L};
 
 
     @FXML
@@ -85,7 +92,7 @@ public class HelloController {
         ArrayList preguntas = new ArrayList();
         ArrayList<Boolean> respuestas = new ArrayList<Boolean>();
 
-        //System.out.println(selectedForm);
+
         String[] plainValues = selectedForm.split("-");
         plainValues[0] = plainValues[0].replace("#", "");
         plainValues[0] = plainValues[0].replace(" ", "");
@@ -110,8 +117,6 @@ public class HelloController {
                 respuestas.add(addAns);
             }
         }
-
-        System.out.println("respuestas en el arraylist ----> " + respuestas.toString());
 
 
         GridPane root = new GridPane();
@@ -148,7 +153,6 @@ public class HelloController {
             @Override
             public void handle(ActionEvent event) {
                 if(CuestionarioRespondido){
-                    System.out.println("Yo estuve por aqui");
                     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("MainScene.fxml"));
 
                     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -157,6 +161,7 @@ public class HelloController {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                    stage.setTitle("JAVAFORMS");
                     stage.setScene(scene);
                     stage.show();
                 }else{
@@ -183,7 +188,7 @@ public class HelloController {
         ScrollPane as = new ScrollPane(root);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(as, 1100, 500);
+        scene = new Scene(as, 1200, 500);
         stage.setTitle("Cuestionario " + FormId + " - " + FormName);
         stage.setScene(scene);
         stage.show();
@@ -272,7 +277,6 @@ public class HelloController {
                         SaveAndStoreAns n = new SaveAndStoreAns();
                         try {
                             n.inputUserQ(preguntasYrespuestas, FormNameInput.getText());
-                            System.out.println("Yo estuve por aqui");
                             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("MainScene.fxml"));
 
                             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -281,6 +285,7 @@ public class HelloController {
                             } catch (IOException ex) {
                                 throw new RuntimeException(ex);
                             }
+                            stage.setTitle("JAVAFORMS");
                             stage.setScene(scene);
                             stage.show();
                         } catch (IOException ex) {
@@ -297,7 +302,7 @@ public class HelloController {
 
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(SProot, 700, 500);
-            stage.setTitle("adding this");
+            stage.setTitle("Nuevo Formulario");
             stage.setScene(scene);
             stage.show();
 
@@ -305,7 +310,43 @@ public class HelloController {
     }
 
 
+    //this piece of code will be in charge of telling the instructions and the team members
+    @FXML
+    protected void showInformation(ActionEvent event){
+        VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+        Text Integrantes = new Text("Integrantes: ");
+        Integrantes.setFont(Font.font("verdana", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 20));
+        root.getChildren().add(Integrantes);
+        Text[] writeIntegrantes = new Text[this.FullName.length];
+        for(int i = 0; i < this.FullName.length; i++){
+            writeIntegrantes[i] = new Text("-Nombre Completo: " + this.FullName[i] + "\n    Numero de cuenta: " + this.AccountNumber[i] + "\n");
+            writeIntegrantes[i].setFont(Font.font("verdana", FontWeight.LIGHT, FontPosture.ITALIC, 13));
+            root.getChildren().add(writeIntegrantes[i]);
+        }
 
+        Button backMain = new Button("Volver");
+        backMain.setOnAction(value -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("MainScene.fxml"));
+
+            stage = (Stage) ((Node) value.getSource()).getScene().getWindow();
+            try {
+                scene = new Scene(fxmlLoader.load(), 600, 400);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            stage.setTitle("JAVAFORMS");
+            stage.setScene(scene);
+            stage.show();
+        });
+
+        root.getChildren().add(backMain);
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root, 700, 500);
+        stage.setTitle("Integrantes");
+        stage.setScene(scene);
+        stage.show();
+    }
 
 
 }
